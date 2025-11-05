@@ -3,12 +3,20 @@
  */
 
 const { logger } = require('./logger');
+const { config } = require('./config');
 
 class Formatters {
   /**
    * Create a standard MCP tool response
+   * @param {string|object} data - Text string or object (for JSON output)
+   * @param {string} type - Response type (default: 'text')
    */
-  static createResponse(text, type = 'text') {
+  static createResponse(data, type = 'text') {
+    // If data is already an object and JSON output is enabled, stringify it
+    const text = (typeof data === 'object' && config.isJsonOutput()) 
+      ? JSON.stringify(data, null, 2) 
+      : String(data);
+    
     return {
       content: [
         {
@@ -83,6 +91,13 @@ class Formatters {
    * Format schema list
    */
   static formatSchemaList(schemas) {
+    if (config.isJsonOutput()) {
+      return {
+        schemas: schemas,
+        total: schemas.length
+      };
+    }
+
     const lines = [
       '📋 Available schemas in HANA database:',
       ''
@@ -102,6 +117,14 @@ class Formatters {
    * Format table list
    */
   static formatTableList(tables, schemaName) {
+    if (config.isJsonOutput()) {
+      return {
+        schema: schemaName,
+        tables: tables,
+        total: tables.length
+      };
+    }
+
     const lines = [
       `📋 Tables in schema '${schemaName}':`,
       ''
@@ -121,6 +144,23 @@ class Formatters {
    * Format table structure
    */
   static formatTableStructure(columns, schemaName, tableName) {
+    if (config.isJsonOutput()) {
+      return {
+        schema: schemaName,
+        table: tableName,
+        columns: columns.map(col => ({
+          name: col.COLUMN_NAME,
+          dataType: col.DATA_TYPE_NAME,
+          length: col.LENGTH || null,
+          scale: col.SCALE || null,
+          nullable: col.IS_NULLABLE === 'TRUE',
+          defaultValue: col.DEFAULT_VALUE || null,
+          description: col.COMMENTS || null
+        })),
+        total: columns.length
+      };
+    }
+
     const lines = [
       `📋 Table structure for '${schemaName}.${tableName}':`,
       ''
@@ -161,6 +201,20 @@ class Formatters {
    * Format index list
    */
   static formatIndexList(indexMap, schemaName, tableName) {
+    if (config.isJsonOutput()) {
+      return {
+        schema: schemaName,
+        table: tableName,
+        indexes: Object.entries(indexMap).map(([name, index]) => ({
+          name: name,
+          type: index.isUnique ? 'Unique' : index.type,
+          columns: index.columns,
+          isUnique: index.isUnique
+        })),
+        total: Object.keys(indexMap).length
+      };
+    }
+
     const lines = [
       `📋 Indexes for table '${schemaName}.${tableName}':`,
       ''
@@ -212,6 +266,14 @@ class Formatters {
    * Format query results as table
    */
   static formatQueryResults(results, query) {
+    if (config.isJsonOutput()) {
+      return {
+        query: query,
+        results: results,
+        rowCount: results.length
+      };
+    }
+
     const lines = [
       '🔍 Query executed successfully:',
       '',

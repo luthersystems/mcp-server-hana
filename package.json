@@ -36,11 +36,11 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hatrigt/hana-mcp-server.git"
+    "url": "git+https://github.com/luthersystems/mcp-server-hana.git"
   },
-  "homepage": "https://github.com/hatrigt/hana-mcp-server#readme",
+  "homepage": "https://github.com/luthersystems/mcp-server-hana#readme",
   "bugs": {
-    "url": "https://github.com/hatrigt/hana-mcp-server/issues"
+    "url": "https://github.com/luthersystems/mcp-server-hana/issues"
   },
   "readme": "README.md",
   "engines": {

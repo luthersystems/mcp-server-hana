@@ -1,10 +1,12 @@
-# HANA MCP Server
+# MCP Server for SAP HANA
 
 [![npm version](https://img.shields.io/npm/v/hana-mcp-server.svg)](https://www.npmjs.com/package/hana-mcp-server)
 [![npm downloads](https://img.shields.io/npm/dy/hana-mcp-server.svg)](https://www.npmjs.com/package/hana-mcp-server)
 [![Node.js](https://img.shields.io/badge/Node.js-18+-green.svg)](https://nodejs.org/)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![MCP](https://badge.mcpx.dev?type=server)](https://modelcontextprotocol.io/)
+
+**Note**: This is the Luther Systems fork with JSON output format support. Repository: `luthersystems/mcp-server-hana`
 
 > **Model Context Protocol (MCP) server for seamless SAP HANA database integration with AI agents and development tools.**
 
