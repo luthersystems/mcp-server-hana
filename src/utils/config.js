@@ -27,7 +27,8 @@ class Config {
       server: {
         logLevel: process.env.LOG_LEVEL || 'INFO',
         enableFileLogging: process.env.ENABLE_FILE_LOGGING === 'true',
-        enableConsoleLogging: process.env.ENABLE_CONSOLE_LOGGING !== 'false'
+        enableConsoleLogging: process.env.ENABLE_CONSOLE_LOGGING !== 'false',
+        outputFormat: process.env.OUTPUT_FORMAT || 'text'  // 'text' (default) or 'json'
       }
     };
   }
@@ -187,6 +188,20 @@ class Config {
    */
   hasDefaultSchema() {
     return !!this.config.hana.schema;
+  }
+
+  /**
+   * Get output format (text or json)
+   */
+  getOutputFormat() {
+    return this.config.server.outputFormat;
+  }
+
+  /**
+   * Check if JSON output format is enabled
+   */
+  isJsonOutput() {
+    return this.config.server.outputFormat === 'json';
   }
 }
 
